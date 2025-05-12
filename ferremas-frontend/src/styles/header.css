@@ -1,0 +1,41 @@
+/* Encabezado superior "FERREMAS" */
+.ferremas-header {
+  background-color: #FFFFED;
+  color: black;
+  text-align: left;
+  padding: 20px 20px 10px 20px;
+  font-size: 2rem;
+  margin: 0;
+  width: 100%;
+}
+
+/* Navbar muy delgado */
+.navbar {
+  background-color: #343a40;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 0;
+  margin-bottom: 0%;
+}
+
+/* Ajuste fino de los elementos del navbar */
+.navbar .navbar-brand,
+.navbar .nav-link {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1;
+  font-size: 0.95rem;
+}
+
+/* Botón del carrito */
+button {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+button .fa-shopping-cart {
+  margin-right: 5px;
+}
