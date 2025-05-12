@@ -1,22 +1,25 @@
-// src/components/ProductoCard.js
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { useCarrito } from '../context/CarritoContext'; // Asegúrate de importar el contexto
+import { Button, Card } from 'react-bootstrap';
+import { useCarrito } from '../context/CarritoContext';
 
 const ProductoCard = ({ producto }) => {
-  const { agregarAlCarrito } = useCarrito(); // Usamos el contexto para agregar al carrito
+  const { agregarAlCarrito } = useCarrito();
 
   const handleAgregar = () => {
-    agregarAlCarrito(producto); // Llamamos a la función para agregar el producto al carrito
+    agregarAlCarrito(producto);
   };
 
   return (
-    <div className="producto-card">
-      <h5>{producto.nombre}</h5>
-      <p>{producto.descripcion}</p>
-      <p>${producto.precio}</p>
-      <Button onClick={handleAgregar}>Agregar al carrito</Button>
-    </div>
+    <Card className="mb-4 shadow-sm">
+      <Card.Body>
+        <Card.Title>{producto.nombre}</Card.Title>
+        <Card.Text>{producto.descripcion}</Card.Text>
+        <Card.Text className="fw-bold">${producto.precio}</Card.Text>
+        <Button onClick={handleAgregar} variant="warning" className="text-dark w-100">
+          Agregar al carrito
+        </Button>
+      </Card.Body>
+    </Card>
   );
 };
 

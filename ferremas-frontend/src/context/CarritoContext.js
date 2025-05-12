@@ -9,8 +9,20 @@ export function CarritoProvider({ children }) {
     setCarrito((prevCarrito) => [...prevCarrito, producto]);
   };
 
+  const eliminarDelCarrito = (id) => {
+    setCarrito((prevCarrito) =>
+      prevCarrito.filter((producto) => producto.id !== id)
+    );
+  };
+
+  const vaciarCarrito = () => {
+    setCarrito([]);
+  };
+
   return (
-    <CarritoContext.Provider value={{ carrito, agregarAlCarrito }}>
+    <CarritoContext.Provider
+      value={{ carrito, agregarAlCarrito, eliminarDelCarrito, vaciarCarrito }}
+    >
       {children}
     </CarritoContext.Provider>
   );

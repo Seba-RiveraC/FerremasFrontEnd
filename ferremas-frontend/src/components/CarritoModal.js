@@ -1,26 +1,36 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useCarrito } from '../context/CarritoContext';
-import { Link } from 'react-router-dom'; // Importa Link de React Router
+import { Link } from 'react-router-dom';
 
-const CarritoModal = ({ onClose }) => {
+const CarritoModal = ({ onClose, show }) => {
   const { carrito, eliminarDelCarrito, vaciarCarrito } = useCarrito();
 
-  console.log(carrito);  // Verifica el contenido del carrito en la consola
+ 
+  const manejarVaciarCarrito = () => {
+    vaciarCarrito();
+    onClose();  
+  };
+
+  
+  const manejarContinuarCompra = () => {
+    onClose();  
+  };
 
   return (
-    <Modal show onHide={onClose}>
+    <Modal show={show} onHide={onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Mi Carrito</Modal.Title>
+        <Modal.Title>Carrito de Compras</Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
         {carrito.length > 0 ? (
-          <ul>
+          <ul className="list-group">
             {carrito.map((item, index) => (
-              <li key={index}>
-                {item.nombre} x {item.cantidad}{' '}
+              <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                <span>{item.nombre} - ${item.precio}</span>
                 <Button
-                  variant="danger"
+                  variant="outline-danger"
                   size="sm"
                   onClick={() => eliminarDelCarrito(item.id)}
                 >
@@ -33,23 +43,27 @@ const CarritoModal = ({ onClose }) => {
           <p>No hay items en el carrito.</p>
         )}
       </Modal.Body>
+
       <Modal.Footer>
         <Button variant="secondary" onClick={onClose}>
           Cerrar
         </Button>
-        <Button variant="danger" onClick={vaciarCarrito}>
-          Vaciar carrito
-        </Button>
-      </Modal.Footer>
-
-      {/* Botón para terminar compra justo abajo de los productos */}
-      {carrito.length > 0 && (
-        <div className="d-flex justify-content-center w-100">
-          <Link to="/carrito" className="btn btn-success mt-3">
-            Terminar Compra
+        {carrito.length > 0 && (
+          <Button variant="danger" onClick={manejarVaciarCarrito}>
+            Vaciar carrito
+          </Button>
+        )}
+        {}
+        {carrito.length > 0 && (
+          <Link 
+            to="/carrito" 
+            className="btn btn-warning w-100 text-dark mt-3"
+            onClick={manejarContinuarCompra}  // Cierra el modal al hacer clic
+          >
+            Continuar Compra
           </Link>
-        </div>
-      )}
+        )}
+      </Modal.Footer>
     </Modal>
   );
 };

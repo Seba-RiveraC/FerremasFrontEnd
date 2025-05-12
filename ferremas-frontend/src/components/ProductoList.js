@@ -1,13 +1,16 @@
 import React from 'react';
-import ProductoCard from './ProductoCard'; // Importamos el nuevo componente
+import ProductoCard from './ProductoCard';
+import { Row, Col } from 'react-bootstrap';
 
 const ProductoList = ({ productos }) => {
   return (
-    <div className="product-grid">
+    <Row>
       {productos.map((producto) => (
-        <ProductoCard key={producto.id} producto={producto} /> // Usamos ProductoCard para cada producto
+        <Col key={producto.id} md={6} lg={4}>
+          <ProductoCard producto={producto} />
+        </Col>
       ))}
-    </div>
+    </Row>
   );
 };
 

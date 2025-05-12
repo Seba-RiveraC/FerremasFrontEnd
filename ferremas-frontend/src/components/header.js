@@ -1,55 +1,45 @@
 import React, { useState } from 'react';
-import { Navbar, Nav, Container, Modal, Button } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, Badge } from 'react-bootstrap';
 import { useCarrito } from '../context/CarritoContext';
 import { FaShoppingCart } from 'react-icons/fa';
 import '../styles/header.css';
-import { Link } from 'react-router-dom';  // Importa Link desde react-router-dom
+import { Link } from 'react-router-dom';
+import CarritoModal from './CarritoModal'; // Importar el modal
 
 function Header() {
-  const [showModal, setShowModal] = useState(false);
   const { carrito } = useCarrito();
+  const [showModal, setShowModal] = useState(false); // Estado para controlar el modal
 
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true); // Función para mostrar el modal
+  const handleCloseModal = () => setShowModal(false); // Función para cerrar el modal
 
   return (
     <>
-      <div className="ferremas-header">FERREMAS</div>
-      <Navbar expand="lg" variant="dark">
+      <Navbar bg="dark" variant="dark" expand="lg" sticky="top" className="shadow">
         <Container>
-          <Link className="navbar-brand" to="/">Inicio</Link>  {/* Te lleva al Home */}
-          <Nav className="me-auto">
-            <Link to="/contacto" className="nav-link text-white">Contacto</Link>  {/* Enlace de Contacto */}
-            <Link to="/carrito" className="nav-link text-white">Carrito Detalle</Link>
-          </Nav>
-          <Button onClick={handleShow} className="btn btn-warning">
-            <FaShoppingCart /> ({carrito.length})
-          </Button>
+          <Navbar.Brand as={Link} to="/" className="fw-bold fs-4 text-warning">
+            FERREMAS
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link as={Link} to="/" className="text-light">
+                Inicio
+              </Nav.Link>
+              <Nav.Link as={Link} to="/contacto" className="text-light">
+                Contacto
+              </Nav.Link>
+            </Nav>
+            <Button variant="outline-warning" onClick={handleShowModal}>
+              <FaShoppingCart size={18} />{' '}
+              <Badge bg="danger">{carrito.length}</Badge>
+            </Button>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      {/* Modal del carrito */}
-      <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Carrito de Compras</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {carrito.length === 0 ? (
-            <p>Tu carrito está vacío.</p>
-          ) : (
-            <ul>
-              {carrito.map((item, idx) => (
-                <li key={idx}>{item.nombre} - ${item.precio}</li>
-              ))}
-            </ul>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {}
+      <CarritoModal onClose={handleCloseModal} show={showModal} />
     </>
   );
 }
